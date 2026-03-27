@@ -1,7 +1,7 @@
 import type {
   PasswordHash,
   PasswordHasher,
-} from "@modules/auth/domain/services/password-hasher.service";
+} from "@/modules/auth/ports/services/password-hasher.service";
 
 // Fake hasher for tests. Uses a deterministic reversible transform.
 export class FakePasswordHasher implements PasswordHasher {

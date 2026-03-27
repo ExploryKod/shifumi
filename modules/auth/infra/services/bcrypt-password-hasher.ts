@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import type {
   PasswordHash,
   PasswordHasher,
-} from "@modules/auth/domain/services/password-hasher.service";
+} from "@/modules/auth/ports/services/password-hasher.service";
 
 // Infra adapter: the domain only needs the `PasswordHasher` contract.
 // This implementation delegates to the external `bcrypt` library.

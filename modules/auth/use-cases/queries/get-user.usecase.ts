@@ -1,4 +1,4 @@
-import type { UserRepository } from "@modules/auth/domain/repositories/user.repository";
+import type { UserRepository } from "@/modules/auth/ports/repositories/user.repository";
 import type { GetUserInput, GetUserOutput } from "../dto/get-user.dto";
 
 export class GetUserUseCase {

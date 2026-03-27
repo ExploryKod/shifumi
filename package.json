@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "pnpm": {
-    "onlyBuiltDependencies": ["better-sqlite3", "bcrypt"]
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "bcrypt"
+    ]
   },
   "scripts": {
     "dev": "next dev",
@@ -11,7 +14,10 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
-    "test:unit": "jest --testPathIgnorePatterns=int --testPathIgnorePatterns=e2e"
+    "test:unit": "jest --testPathIgnorePatterns=int --testPathIgnorePatterns=e2e",
+    "game": "tsx cli/game-cli.ts",
+    "game:demo": "tsx cli/demo.ts",
+    "game:simple": "node --loader tsx/esm cli/run-game.ts"
   },
   "dependencies": {
     "@evyweb/ioctopus": "^1.3.1",
@@ -49,6 +55,7 @@
     "prisma": "^7.5.0",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.6",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   },
   "type": "module"

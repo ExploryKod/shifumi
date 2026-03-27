@@ -1,8 +1,5 @@
-// NOTE: For now this file intentionally contains all related domain types.
-// We'll move value objects/errors/types into their own files later.
-
-import type { PasswordHash } from "@modules/auth/domain/services/password-hasher.service";
-import type { PasswordHasher } from "@modules/auth/domain/services/password-hasher.service";
+import type { PasswordHash } from "@/modules/auth/ports/services/password-hasher.service";
+import type { PasswordHasher } from "@/modules/auth/ports/services/password-hasher.service";
 
 export type Feature = string;
 

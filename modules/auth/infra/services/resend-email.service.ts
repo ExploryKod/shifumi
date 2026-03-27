@@ -1,4 +1,4 @@
-import type { EmailService } from "@modules/auth/domain/services/email.service";
+import type { EmailService } from "@/modules/auth/ports/services/email.service";
 import type { Email, User } from "@modules/auth/domain/entities/user.entity";
 
 // Infra placeholder: currently no external email provider dependency.

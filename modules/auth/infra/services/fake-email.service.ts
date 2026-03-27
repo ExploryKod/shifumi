@@ -1,6 +1,6 @@
 import type {
   EmailService,
-} from "@modules/auth/domain/services/email.service";
+} from "@/modules/auth/ports/services/email.service";
 import type { Email, User } from "@modules/auth/domain/entities/user.entity";
 
 // Fake email service for tests. Captures calls without sending anything externally.

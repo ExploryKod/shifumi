@@ -1,5 +1,5 @@
-import type { UserRepository } from "@modules/auth/domain/repositories/user.repository";
-import type { PasswordHasher } from "@modules/auth/domain/services/password-hasher.service";
+import type { UserRepository } from "@/modules/auth/ports/repositories/user.repository";
+import type { PasswordHasher } from "@/modules/auth/ports/services/password-hasher.service";
 import { Email } from "@modules/auth/domain/entities/user.entity";
 import { InvalidCredentialsError } from "@modules/auth/domain/errors/errors.entity";
 import type { LoginUserInput, LoginUserOutput } from "./login-user.types";
