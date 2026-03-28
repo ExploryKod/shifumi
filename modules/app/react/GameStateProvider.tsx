@@ -1,6 +1,7 @@
 "use client";
 import React, { createContext, useContext, ReactNode, useState, useCallback } from 'react';
 import { useShifumi } from './ShifumiProvider';
+import type { MoveType } from '@modules/shifumi/domain/entities/move.entity';
 
 // Game state interface
 interface GameState {
@@ -8,6 +9,10 @@ interface GameState {
   currentGameId: string | null;
   score: number;
   lastResult: string | null;
+  playerPick: MoveType | null;
+  housePick: MoveType | null;
+  outcome: 'win' | 'loss' | 'draw' | null;
+  phase: 'idle' | 'revealing' | 'finished';
   isLoading: boolean;
 }
 
@@ -34,6 +39,10 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     currentGameId: null,
     score: 0,
     lastResult: null,
+    playerPick: null,
+    housePick: null,
+    outcome: null,
+    phase: 'idle',
     isLoading: false,
   });
 
@@ -51,7 +60,11 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         ...prev,
         currentGameId: result.gameId,
         playerId: result.playerId,
-        lastResult: 'Game started!',
+        lastResult: null,
+        playerPick: null,
+        housePick: null,
+        outcome: null,
+        phase: 'idle',
         isLoading: false,
       }));
     } catch (error) {
@@ -65,40 +78,56 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
 
   // Play move action
   const playMove = useCallback(async (move: string) => {
-    if (!gameState.currentGameId) {
-      setGameState(prev => ({
-        ...prev,
-        lastResult: 'Start a game first!'
-      }));
-      return;
-    }
-
-    setGameState(prev => ({ ...prev, isLoading: true }));
+    const normalizedMove = move as MoveType;
+    setGameState(prev => ({
+      ...prev,
+      isLoading: true,
+      playerPick: normalizedMove,
+      housePick: null,
+      outcome: null,
+      phase: 'revealing',
+      lastResult: null,
+    }));
 
     try {
+      let gameId = gameState.currentGameId;
+      let playerId = gameState.playerId;
+
+      if (!gameId) {
+        const startResult = await shifumi.startGame.execute({
+          playerName: 'Player',
+          playerId: playerId || undefined
+        });
+        gameId = startResult.gameId;
+        playerId = startResult.playerId;
+      }
+
       const result = await shifumi.playRound.execute({
-        gameId: gameState.currentGameId,
+        gameId,
         humanMove: move
       });
 
-      // Update state with new score and result
       setGameState(prev => ({
         ...prev,
+        currentGameId: gameId,
+        playerId,
         score: result.newScore,
+        playerPick: result.humanMove as MoveType,
+        housePick: result.computerMove as MoveType,
+        outcome: result.result,
+        phase: 'finished',
         lastResult: `You: ${result.humanMove} | Computer: ${result.computerMove} | ${result.result.toUpperCase()}! ${result.message}`,
         isLoading: false,
       }));
-
-      // Start new game for next round
-      await startNewGame();
     } catch (error) {
       setGameState(prev => ({
         ...prev,
         lastResult: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        phase: 'idle',
         isLoading: false,
       }));
     }
-  }, [shifumi, gameState.currentGameId, startNewGame]);
+  }, [shifumi, gameState.currentGameId, gameState.playerId]);
 
   // Refresh score action (for components that just want to display score)
   const refreshScore = useCallback(async () => {

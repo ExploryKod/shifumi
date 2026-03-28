@@ -1,0 +1,85 @@
+import Image from "next/image";
+import { MoveType } from "@modules/shifumi/domain/entities/move.entity";
+import { useGameState } from "@modules/app/react/GameStateProvider";
+import { useMemo } from "react";
+
+type ShifumiBtnProps = {
+  move: MoveType;
+  isResultDisplay?: boolean;
+  onClick?: () => void;
+  className?: string;
+};
+
+export const ShifumiBtn = ({
+  move,
+  isResultDisplay = false,
+  onClick,
+  className = "size-[clamp(8rem,30vw,10.5rem)]",
+}: ShifumiBtnProps) => {
+  const { gameState, playMove } = useGameState();
+  
+  const moveInfo = useMemo(() => {
+    const icons = {
+      [MoveType.ROCK]: "/shifumi/icon-rock.svg",
+      [MoveType.PAPER]: "/shifumi/icon-paper.svg",
+      [MoveType.SCISSORS]: "/shifumi/icon-scissors.svg",
+    };
+    
+    const colors = {
+      [MoveType.ROCK]: "shadow-[0_0.5rem_0_hsl(347,75%,35%)]",
+      [MoveType.PAPER]: "shadow-[0_0.5rem_0_hsl(229,64%,46%)]",
+      [MoveType.SCISSORS]: "shadow-[0_0.5rem_0_hsl(28,76%,44%)]",
+    };
+
+    const bgColors = {
+      [MoveType.ROCK]: { backgroundColor: "hsl(349, 71%, 52%)" },
+      [MoveType.PAPER]: { backgroundColor: "hsl(230, 89%, 62%)" },
+      [MoveType.SCISSORS]: { backgroundColor: "hsl(39, 89%, 49%)" },
+    };
+    
+    return {
+      icon: icons[move],
+      shadowColor: colors[move],
+      bgStyle: bgColors[move],
+    };
+  }, [move]);
+
+  const handleClick = async () => {
+    if (onClick) {
+      onClick();
+      return;
+    }
+    if (!isResultDisplay && !gameState.isLoading) {
+      await playMove(move);
+    }
+  };
+
+  const buttonClasses = `
+    ${className}
+    relative rounded-full ${moveInfo.shadowColor}
+    flex items-center justify-center
+    transition-transform duration-200
+    ${!isResultDisplay ? "hover:scale-105 active:scale-95 cursor-pointer" : ""}
+    ${gameState.isLoading && !isResultDisplay ? "opacity-50" : ""}
+  `;
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={isResultDisplay || gameState.isLoading}
+      className={buttonClasses}
+      style={moveInfo.bgStyle}
+      aria-label={`${move} button`}
+    >
+      <div className="flex size-[76%] items-center justify-center rounded-full bg-white shadow-[inset_0_0.35rem_0_rgba(0,0,0,0.08)]">
+        <Image
+          src={moveInfo.icon}
+          alt={move}
+          width={64}
+          height={64}
+          className="h-[42%] w-[42%] object-contain"
+        />
+      </div>
+    </button>
+  );
+};
