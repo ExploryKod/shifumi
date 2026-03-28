@@ -4,12 +4,31 @@ Reusable Next.js App Router starter with authentication flows (register/login) a
 
 ## Getting started
 
+### Local installation
+
+From this directory (`shifumi/`):
+
 ```bash
 pnpm install
+```
+
+`postinstall` runs `prisma generate`, which writes the client to `generated/prisma` (gitignored). If you ever skip install scripts, run `pnpm exec prisma generate` before `pnpm build` or `pnpm dev`.
+
+```bash
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+### Deploying on Vercel
+
+1. **Root Directory** — If the Git repo root is the parent folder (e.g. Frontend Mentor challenge layout), set Vercel’s **Root Directory** to `shifumi` so install and build run in this app.
+
+2. **Build command** — `vercel.json` sets `buildCommand` to `prisma generate && next build` so the Prisma client exists before Next builds. Vercel’s default for Next.js is only `next build`, which would skip generation.
+
+3. **Dashboard override** — A custom **Build Command** in the Vercel project settings overrides `vercel.json`. Either leave **Build Command** empty (use the file) or set it explicitly to `prisma generate && next build`.
+
+4. **Environment** — Add `DATABASE_URL` (and any other vars from `.env.example`) in the Vercel project if your build or runtime needs them.
 
 ## Included
 

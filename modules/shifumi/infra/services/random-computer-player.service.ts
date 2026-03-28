@@ -1,4 +1,7 @@
-import type { ComputerPlayerService, ComputerStrategy } from '@/modules/shifumi/ports/services/computer-player.service';
+import {
+  ComputerStrategy,
+  type ComputerPlayerService,
+} from '@/modules/shifumi/ports/services/computer-player.service';
 import { Move } from '@/modules/shifumi/domain/entities/move.entity';
 
 export class RandomComputerPlayerService implements ComputerPlayerService {
