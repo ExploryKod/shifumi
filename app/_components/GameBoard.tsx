@@ -4,6 +4,36 @@ import { useGameState } from '@modules/app/react/GameStateProvider';
 import { ShifumiBtn } from './ShifumiBtn';
 import { MoveType } from '@modules/shifumi/domain/entities/move.entity';
 
+type PickPanelProps = {
+  title: string;
+  move?: MoveType | null;
+  waiting?: boolean;
+  highlightWinner?: boolean;
+};
+
+const PickPanel = ({ title, move, waiting = false, highlightWinner = false }: PickPanelProps) => {
+  return (
+    <div className="flex flex-col items-center gap-6">
+      <div className="md:order-1">
+        {move ? (
+          <ShifumiBtn
+            move={move}
+            isResultDisplay
+            highlightWinner={highlightWinner}
+            className="size-[clamp(8.5rem,32vw,10rem)] md:size-[clamp(12rem,22vw,18rem)]"
+          />
+        ) : (
+          <div className="size-[clamp(8.5rem,32vw,10rem)] rounded-full bg-black/20 md:size-[clamp(12rem,22vw,18rem)]" />
+        )}
+      </div>
+      <p className="text-center text-[0.95rem] font-semibold tracking-[0.18em] text-white md:order-0 md:text-[1.1rem]">
+        {title}
+      </p>
+      {waiting && <span className="sr-only">Waiting for the house pick</span>}
+    </div>
+  );
+};
+
 export const GameBoard = () => {
   const { gameState, startNewGame } = useGameState();
   const isWin = gameState.outcome === 'win';
@@ -13,31 +43,34 @@ export const GameBoard = () => {
   // Show result screen after a game
   if (gameState.phase === 'finished' && gameState.playerPick && gameState.housePick) {
     return (
-      <div className="flex flex-col items-center space-y-8">
-        <div className="flex flex-col items-center gap-10 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-12">
-          <div className="flex flex-col items-center space-y-4">
-            <p className="text-white text-sm font-semibold tracking-wider">YOU PICKED</p>
-            <ShifumiBtn move={gameState.playerPick} isResultDisplay className="size-[clamp(8rem,26vw,12rem)] md:size-[clamp(10rem,20vw,18rem)]" />
-          </div>
+      <div className="flex w-full flex-col items-center">
+        <div className="flex w-full max-w-5xl flex-col items-center gap-16 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
+          <PickPanel
+            title="YOU PICKED"
+            move={gameState.playerPick}
+            highlightWinner={isWin}
+          />
 
-          <div className="flex flex-col items-center space-y-4">
-            <h2 className="text-white text-4xl md:text-5xl font-bold">
+          <div className="order-3 flex flex-col items-center space-y-4 md:order-0 md:px-4">
+            <h2 className="text-white text-5xl font-bold md:text-6xl">
               {isWin && 'YOU WIN'}
               {isLoss && 'YOU LOSE'}
               {isDraw && 'DRAW'}
             </h2>
             <button
+              type="button"
               onClick={startNewGame}
-              className="px-8 py-3 bg-white text-navy-900 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              className="min-w-56 cursor-pointer rounded-lg bg-white px-8 py-3 text-[0.95rem] font-semibold tracking-[0.16em] text-navy-900"
             >
               PLAY AGAIN
             </button>
           </div>
 
-          <div className="flex flex-col items-center space-y-4">
-            <p className="text-white text-sm font-semibold tracking-wider">THE HOUSE PICKED</p>
-            <ShifumiBtn move={gameState.housePick} isResultDisplay className="size-[clamp(8rem,26vw,12rem)] md:size-[clamp(10rem,20vw,18rem)]" />
-          </div>
+          <PickPanel
+            title="THE HOUSE PICKED"
+            move={gameState.housePick}
+            highlightWinner={isLoss}
+          />
         </div>
       </div>
     );
@@ -46,15 +79,9 @@ export const GameBoard = () => {
   // Show waiting state while computer picks
   if (gameState.phase === 'revealing' && gameState.playerPick) {
     return (
-      <div className="flex flex-col items-center gap-10 md:grid md:grid-cols-2 md:gap-16">
-        <div className="flex flex-col items-center space-y-4">
-          <p className="text-white text-sm font-semibold tracking-wider">YOU PICKED</p>
-          <ShifumiBtn move={gameState.playerPick} isResultDisplay className="size-[clamp(8rem,26vw,12rem)] md:size-[clamp(10rem,20vw,18rem)]" />
-        </div>
-        <div className="flex flex-col items-center space-y-4">
-          <p className="text-white text-sm font-semibold tracking-wider">THE HOUSE PICKED</p>
-          <div className="size-[clamp(8rem,26vw,12rem)] rounded-full bg-black/20 md:size-[clamp(10rem,20vw,18rem)]"></div>
-        </div>
+      <div className="flex w-full max-w-4xl flex-col items-center gap-14 md:grid md:grid-cols-2 md:gap-16">
+        <PickPanel title="YOU PICKED" move={gameState.playerPick} />
+        <PickPanel title="THE HOUSE PICKED" waiting />
       </div>
     );
   }

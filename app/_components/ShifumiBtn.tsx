@@ -8,6 +8,7 @@ type ShifumiBtnProps = {
   isResultDisplay?: boolean;
   onClick?: () => void;
   className?: string;
+  highlightWinner?: boolean;
 };
 
 export const ShifumiBtn = ({
@@ -15,6 +16,7 @@ export const ShifumiBtn = ({
   isResultDisplay = false,
   onClick,
   className = "size-[clamp(8rem,30vw,10.5rem)]",
+  highlightWinner = false,
 }: ShifumiBtnProps) => {
   const { gameState, playMove } = useGameState();
   
@@ -56,10 +58,11 @@ export const ShifumiBtn = ({
 
   const buttonClasses = `
     ${className}
-    relative rounded-full ${moveInfo.shadowColor}
+    relative cursor-pointer rounded-full ${moveInfo.shadowColor}
     flex items-center justify-center
     transition-transform duration-200
-    ${!isResultDisplay ? "hover:scale-105 active:scale-95 cursor-pointer" : ""}
+    disabled:cursor-pointer
+    ${!isResultDisplay ? "hover:scale-105 active:scale-95" : ""}
     ${gameState.isLoading && !isResultDisplay ? "opacity-50" : ""}
   `;
 
@@ -71,6 +74,13 @@ export const ShifumiBtn = ({
       style={moveInfo.bgStyle}
       aria-label={`${move} button`}
     >
+      {highlightWinner && (
+        <>
+          <span className="absolute inset-[-18%] rounded-full bg-white/4" aria-hidden="true" />
+          <span className="absolute inset-[-36%] rounded-full bg-white/3" aria-hidden="true" />
+          <span className="absolute inset-[-54%] rounded-full bg-white/2" aria-hidden="true" />
+        </>
+      )}
       <div className="flex size-[76%] items-center justify-center rounded-full bg-white shadow-[inset_0_0.35rem_0_rgba(0,0,0,0.08)]">
         <Image
           src={moveInfo.icon}

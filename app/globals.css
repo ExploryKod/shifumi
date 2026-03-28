@@ -78,7 +78,7 @@
 --color-light-blue-400: var(--light-blue-400);
 --color-light-blue-500: var(--light-blue-500);
 
-/* Neutral Colors */
+/* Neutral Colors → Tailwind: text-navy-900, text-blue-700 (same HSL as score label in style guide), text-gray-600 */
 --color-navy-900: var(--navy-900);
 --color-blue-700-text: var(--blue-700-text);
 --color-gray-600: var(--gray-600);

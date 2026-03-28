@@ -26,8 +26,10 @@ export const Header: React.FC<{ className?: string }> = ({ className = "" }) => 
           </div>
           <div className="bg-white rounded-xl px-6 py-4">
             <div className="text-center">
-              <p className="text-navy-900 text-sm font-semibold tracking-wider mb-1">SCORE</p>
-              <p className="text-navy-900 text-4xl font-bold">
+              <p className="mb-1 text-sm font-semibold tracking-wider text-blue-700">
+                SCORE
+              </p>
+              <p className="text-4xl font-bold text-navy-900">
                 <Scores />
               </p>
             </div>
