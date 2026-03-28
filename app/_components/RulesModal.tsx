@@ -116,7 +116,7 @@ export const RulesModal = ({ isOpen, onClose }: RulesModalProps) => {
             ref={desktopCloseButtonRef}
             type="button"
             onClick={onClose}
-            className="rounded-md p-1 text-gray-400 transition hover:text-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400"
+            className="cursor-pointer rounded-md p-1 text-gray-600 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
             aria-label="Close rules modal"
           >
             <Image src="/icons/icon-close.svg" alt="" width={20} height={20} />
@@ -147,7 +147,7 @@ export const RulesModal = ({ isOpen, onClose }: RulesModalProps) => {
             ref={mobileCloseButtonRef}
             type="button"
             onClick={onClose}
-            className="rounded-md p-1 text-gray-400 transition hover:text-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400"
+            className="cursor-pointer rounded-md p-1 text-gray-600 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
             aria-label="Close rules modal"
           >
             <Image src="/icons/icon-close.svg" alt="" width={20} height={20} />
