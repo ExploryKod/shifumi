@@ -15,7 +15,7 @@ export const Header: React.FC<{ className?: string }> = ({ className = "" }) => 
   return (
     <header
       ref={ref}
-      className="sticky top-0 z-20 w-full"
+      className="z-20 w-full mx-auto"
     >
         <div className="header-container border-2 border-white/30 rounded-xl p-6 flex items-center justify-between">
           <div>

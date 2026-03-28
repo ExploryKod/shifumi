@@ -85,20 +85,17 @@ body {
   background: var(--background);
   min-height: 100vh;
   color: white;
+  padding: 0 2rem;
 }
 
 .header-height {
   min-height: var(--header-height);
 }
 
-.footer-block {
-  @apply bg-cyan-300 text-white mt-5 pt-0 pb-10;
-}
-
 .section-container,
 .header-container,
 .footer-container {
-  @apply max-w-3xl mt-5 mx-5;
+  @apply max-w-3xl mt-5 mx-auto;
 }
 
 .section-container-fluid {
