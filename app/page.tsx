@@ -11,7 +11,7 @@ export default function Home() {
             <div className="flex min-h-0 w-full flex-1 flex-col items-center justify-center">
               <GameBoard />
             </div>
-            <div className="mt-auto flex w-full shrink-0 justify-center pt-8 pb-2 sm:pb-4 md:justify-end md:pr-2 lg:pr-8">
+            <div className="relative z-30 mt-auto flex w-full shrink-0 justify-center pt-8 pb-2 sm:pb-4 md:justify-end md:pr-2 lg:pr-8">
               <RulesButton />
             </div>
           </div>

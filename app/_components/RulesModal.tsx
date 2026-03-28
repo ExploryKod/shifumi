@@ -96,7 +96,7 @@ export const RulesModal = ({ isOpen, onClose }: RulesModalProps) => {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-white p-0 md:bg-black/55 md:p-8"
+      className="fixed inset-0 z-200 flex items-start justify-center bg-white p-0 md:bg-black/55 md:p-8"
       onClick={handleBackdropClick}
       aria-hidden="true"
     >
@@ -106,7 +106,7 @@ export const RulesModal = ({ isOpen, onClose }: RulesModalProps) => {
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        className="relative flex min-h-dvh w-full flex-col bg-white px-8 pb-12 pt-24 text-navy-900 md:min-h-0 md:max-w-100 md:rounded-lg md:px-8 md:pb-8 md:pt-8 md:shadow-2xl"
+        className="md:mt-[calc(var(--header-height)*0.8)] relative flex min-h-dvh w-full flex-col bg-white px-8 pb-12 pt-24 text-navy-900 md:min-h-0 md:max-w-100 md:rounded-lg md:px-8 md:pb-8 md:pt-8 md:shadow-2xl"
       >
         <div className="mb-8 hidden items-start justify-between md:flex">
           <h2 id={titleId} className="text-3xl font-bold">

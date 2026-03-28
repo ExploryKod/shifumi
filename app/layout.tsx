@@ -41,7 +41,6 @@ export const metadata = {
     description: "Challenge the computer in this classic game with beautiful responsive design.",
     images: ["/og-image.jpg"],
   },
-  manifest: "/manifest.json",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
