@@ -11,11 +11,19 @@ type ShifumiBtnProps = {
   highlightWinner?: boolean;
 };
 
+/** Fits inside the triangle board (`w-[min(92vw,28rem)]`); do not add `md:` upscaling here. */
+export const SHIFUMI_TRIANGLE_MOVE_CLASSNAME =
+  "size-[clamp(8rem,30vw,10.5rem)]";
+
+/** Result / reveal rows: same size for both picks; wider on `md+` is OK outside the triangle. */
+export const SHIFUMI_RESULT_MOVE_CLASSNAME =
+  "size-[clamp(8rem,30vw,10.5rem)] md:size-[clamp(12rem,22vw,18rem)]";
+
 export const ShifumiBtn = ({
   move,
   isResultDisplay = false,
   onClick,
-  className = "size-[clamp(8rem,30vw,10.5rem)]",
+  className = SHIFUMI_TRIANGLE_MOVE_CLASSNAME,
   highlightWinner = false,
 }: ShifumiBtnProps) => {
   const { gameState, playMove } = useGameState();
@@ -76,9 +84,18 @@ export const ShifumiBtn = ({
     >
       {highlightWinner && (
         <>
-          <span className="absolute inset-[-18%] rounded-full bg-white/4" aria-hidden="true" />
-          <span className="absolute inset-[-36%] rounded-full bg-white/3" aria-hidden="true" />
-          <span className="absolute inset-[-54%] rounded-full bg-white/2" aria-hidden="true" />
+          <span
+            className="pointer-events-none absolute inset-[-18%] rounded-full bg-white/4"
+            aria-hidden="true"
+          />
+          <span
+            className="pointer-events-none absolute inset-[-36%] rounded-full bg-white/3"
+            aria-hidden="true"
+          />
+          <span
+            className="pointer-events-none absolute inset-[-54%] rounded-full bg-white/2"
+            aria-hidden="true"
+          />
         </>
       )}
       <div className="flex size-[76%] items-center justify-center rounded-full bg-white shadow-[inset_0_0.35rem_0_rgba(0,0,0,0.08)]">
