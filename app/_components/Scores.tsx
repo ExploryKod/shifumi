@@ -1,19 +1,13 @@
 "use client";
-import React from 'react';
-import { useScore, useLastResult } from '@modules/app/react/GameStateProvider';
+import { useScore } from '@modules/app/react/GameStateProvider';
 
 export const Scores = () => {
   const score = useScore();
-  const lastResult = useLastResult();
 
   return (
-    <div className="text-center">
-      <p className="text-lg text-white">Score: {score}</p>
-      {lastResult && (
-        <p className="text-sm text-gray-300 mt-2">{lastResult}</p>
-      )}
+    <div className="bg-white min-w-24 rounded-lg p-4 flex flex-col items-center justify-center">
+      <h1 id="score-title">Score</h1>
+      <p className="text-lg font-bold text-navy-900">{score}</p>
     </div>
   );
 };
-
-
