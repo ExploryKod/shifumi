@@ -1,4 +1,5 @@
 import { Barlow_Semi_Condensed } from "next/font/google";
+import type { Viewport } from "next";
 import "@/app/globals.css";
 import { AppWrapper } from "@modules/app/react/appWrapper";
 
@@ -40,11 +41,6 @@ export const metadata = {
     description: "Challenge the computer in this classic game with beautiful responsive design.",
     images: ["/og-image.jpg"],
   },
-  viewport: "width=device-width, initial-scale=1",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "hsl(214, 47%, 23%)" },
-    { media: "(prefers-color-scheme: dark)", color: "hsl(237, 48%, 15%)" },
-  ],
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -55,6 +51,15 @@ export const metadata = {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "hsl(214, 47%, 23%)" },
+    { media: "(prefers-color-scheme: dark)", color: "hsl(237, 48%, 15%)" },
+  ],
 };
 
 export default function RootLayout({
