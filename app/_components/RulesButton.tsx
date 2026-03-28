@@ -1,16 +1,30 @@
 "use client";
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import { RulesModal } from './RulesModal';
 
 export const RulesButton = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   return (
-    <button
-      onClick={() => {
-        // TODO: Implement modal later
-        console.log('Rules clicked - modal to be implemented');
-      }}
-      className="fixed bottom-8 right-8 px-6 py-3 border-2 border-white/30 text-white rounded-lg font-semibold tracking-wider hover:bg-white/10 transition-colors"
-    >
-      RULES
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={openModal}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 rounded-lg border-2 border-white/30 px-8 py-3 font-semibold tracking-[0.2em] text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:left-auto md:right-8 md:translate-x-0"
+      >
+        RULES
+      </button>
+      <RulesModal isOpen={isOpen} onClose={closeModal} />
+    </>
   );
 };
