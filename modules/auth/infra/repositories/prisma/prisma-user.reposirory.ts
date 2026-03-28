@@ -1,4 +1,4 @@
-import type { UserRepository } from "@modules/auth/domain/repositories/user.repository";
+import type { UserRepository } from "@/modules/auth/ports/repositories/user.repository";
 import type { Email, User, UserId } from "@modules/auth/domain/entities/user.entity";
 import { UserMapper } from "@modules/auth/infra/mappers/user.mapper";
 import type { PrismaClient } from "@/generated/prisma/client";

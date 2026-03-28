@@ -1,4 +1,4 @@
-import type { UserRepository } from "@modules/auth/domain/repositories/user.repository";
+import type { UserRepository } from "@/modules/auth/ports/repositories/user.repository";
 import type { User, UserId, Email } from "@modules/auth/domain/entities/user.entity";
 
 // Simple in-memory repository for tests.
