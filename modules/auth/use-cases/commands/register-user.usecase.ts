@@ -6,39 +6,34 @@ import { UserAlreadyExistsError } from "@modules/auth/domain/errors/errors.entit
 import type { RegisterUserInput, RegisterUserOutput } from "./register-user.types";
 
 export class RegisterUserUseCase {
-    constructor(
-      private userRepo: UserRepository,
-      private emailService: EmailService,
-      private passwordHasher: PasswordHasher
-    ) {}
-  
-    async execute(input: RegisterUserInput): Promise<RegisterUserOutput> {
-      // 1. Create value objects
-      const email = Email.create(input.email);
-      const hashedPassword = await this.passwordHasher.hash(input.password);
-  
-      // 2. Check business rules
-      const existing = await this.userRepo.findByEmail(email);
-      if (existing) {
-        throw new UserAlreadyExistsError(email);
-      }
-  
-      // 3. Create entity
-      const user = User.create({
-        email,
-        password: hashedPassword,
-        profile: UserProfile.create({ name: input.name }),
-      });
-  
-      // 4. Persist
-      await this.userRepo.save(user);
-  
-      // 5. Side effects
-      await this.emailService.sendWelcomeEmail(user);
-  
-      return {
-        userId: user.id.value,
-        success: true,
-      };
+  constructor(
+    private userRepo: UserRepository,
+    private emailService: EmailService,
+    private passwordHasher: PasswordHasher
+  ) {}
+
+  async execute(input: RegisterUserInput): Promise<RegisterUserOutput> {
+    const email = Email.create(input.email);
+    const hashedPassword = await this.passwordHasher.hash(input.password);
+
+    const existing = await this.userRepo.findByEmail(email);
+    if (existing) {
+      throw new UserAlreadyExistsError(email);
     }
+
+    const user = User.create({
+      email,
+      password: hashedPassword,
+      profile: UserProfile.create({ name: input.name }),
+    });
+
+    await this.userRepo.save(user);
+
+    await this.emailService.sendWelcomeEmail(user);
+
+    return {
+      userId: user.id.value,
+      success: true,
+    };
   }
+}

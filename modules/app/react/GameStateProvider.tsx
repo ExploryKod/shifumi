@@ -3,7 +3,10 @@ import React, { createContext, useContext, ReactNode, useState, useCallback } fr
 import { useShifumi } from './ShifumiProvider';
 import type { MoveType } from '@modules/shifumi/domain/entities/move.entity';
 
-// Game state interface
+// -----------------------------------------------------------------------------
+// Types
+// -----------------------------------------------------------------------------
+
 interface GameState {
   playerId: string | null;
   currentGameId: string | null;
@@ -16,24 +19,26 @@ interface GameState {
   isLoading: boolean;
 }
 
-// Context interface
 interface GameStateContextType {
-  // State
   gameState: GameState;
-  
-  // Actions
   startNewGame: () => Promise<void>;
   playMove: (move: string) => Promise<void>;
   refreshScore: () => Promise<void>;
 }
 
-// Create context
+// -----------------------------------------------------------------------------
+// Context
+// -----------------------------------------------------------------------------
+
 const GameStateContext = createContext<GameStateContextType | null>(null);
 
-// Provider component
+// -----------------------------------------------------------------------------
+// Provider
+// -----------------------------------------------------------------------------
+
 export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const shifumi = useShifumi();
-  
+
   const [gameState, setGameState] = useState<GameState>({
     playerId: null,
     currentGameId: null,
@@ -46,16 +51,15 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     isLoading: false,
   });
 
-  // Start new game action
   const startNewGame = useCallback(async () => {
     setGameState(prev => ({ ...prev, isLoading: true }));
-    
+
     try {
       const result = await shifumi.startGame.execute({
         playerName: 'Player',
         playerId: gameState.playerId || undefined
       });
-      
+
       setGameState(prev => ({
         ...prev,
         currentGameId: result.gameId,
@@ -76,7 +80,6 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     }
   }, [shifumi, gameState.playerId]);
 
-  // Play move action
   const playMove = useCallback(async (move: string) => {
     const normalizedMove = move as MoveType;
     setGameState(prev => ({
@@ -129,7 +132,6 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     }
   }, [shifumi, gameState.currentGameId, gameState.playerId]);
 
-  // Refresh score action (for components that just want to display score)
   const refreshScore = useCallback(async () => {
     if (!gameState.playerId) return;
 
@@ -161,18 +163,20 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
   );
 };
 
-// Hook to use game state
+// -----------------------------------------------------------------------------
+// Hooks
+// -----------------------------------------------------------------------------
+
 export const useGameState = (): GameStateContextType => {
   const context = useContext(GameStateContext);
-  
+
   if (!context) {
     throw new Error('useGameState must be used within a GameStateProvider');
   }
-  
+
   return context;
 };
 
-// Convenience hooks for specific parts of state
 export const useScore = () => {
   const { gameState } = useGameState();
   return gameState.score;

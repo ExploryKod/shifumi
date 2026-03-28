@@ -2,12 +2,17 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 import { createShifumiModule, type ShifumiModule } from '@/modules/shifumi/shifumi.module';
 
-// Create the context
+// -----------------------------------------------------------------------------
+// Context
+// -----------------------------------------------------------------------------
+
 const ShifumiContext = createContext<ShifumiModule | null>(null);
 
-// Provider component
+// -----------------------------------------------------------------------------
+// Provider
+// -----------------------------------------------------------------------------
+
 export const ShifumiProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // Create the shifumi module instance (singleton pattern)
   const shifumiModule = React.useMemo(() => createShifumiModule(), []);
 
   return (
@@ -17,18 +22,20 @@ export const ShifumiProvider: React.FC<{ children: ReactNode }> = ({ children })
   );
 };
 
-// Hook to use the shifumi module
+// -----------------------------------------------------------------------------
+// Hooks
+// -----------------------------------------------------------------------------
+
 export const useShifumi = (): ShifumiModule => {
   const context = useContext(ShifumiContext);
-  
+
   if (!context) {
     throw new Error('useShifumi must be used within a ShifumiProvider');
   }
-  
+
   return context;
 };
 
-// Individual hooks for specific use cases (optional convenience)
 export const useStartGame = () => {
   const shifumi = useShifumi();
   return shifumi.startGame;

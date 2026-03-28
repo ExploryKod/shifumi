@@ -38,7 +38,6 @@ export function RegisterForm() {
 
       setStatus("success");
       setMessage(data.message ?? "Account created successfully");
-      // After a successful registration, take the user to the login page.
       router.replace("/login");
     } catch {
       setStatus("error");

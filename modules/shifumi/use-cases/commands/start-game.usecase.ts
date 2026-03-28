@@ -12,25 +12,21 @@ export class StartGameUseCase {
   ) {}
 
   async execute(input: StartGameInput): Promise<StartGameOutput> {
-    // 1. Create or get existing player
     const playerId = input.playerId ? PlayerId.create(input.playerId) : PlayerId.generateId();
     const humanPlayer = Player.createHuman(input.playerName, playerId);
     const computerPlayer = Player.createComputer();
 
-    // 2. Initialize score if it doesn't exist
     const existingScore = await this.scoreRepository.findByPlayerId(playerId.value);
     if (!existingScore) {
       const initialScore = Score.zero(playerId.value);
       await this.scoreRepository.save(initialScore);
     }
 
-    // 3. Create new game
     const game = Game.create({
       humanPlayer,
       computerPlayer
     });
 
-    // 4. Save game
     await this.gameRepository.save(game);
 
     return {

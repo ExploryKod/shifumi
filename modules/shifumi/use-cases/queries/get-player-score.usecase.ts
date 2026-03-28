@@ -6,7 +6,6 @@ export class GetPlayerScoreUseCase {
   constructor(private scoreRepository: ScoreRepository) {}
 
   async execute(input: GetPlayerScoreInput): Promise<GetPlayerScoreOutput> {
-    // 1. Find score or create default
     let score = await this.scoreRepository.findByPlayerId(input.playerId);
     
     if (!score) {
@@ -14,7 +13,6 @@ export class GetPlayerScoreUseCase {
       await this.scoreRepository.save(score);
     }
 
-    // 2. Return score data
     return {
       playerId: input.playerId,
       score: score.value,

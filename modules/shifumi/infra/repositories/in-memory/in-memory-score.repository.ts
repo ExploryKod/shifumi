@@ -21,7 +21,6 @@ export class InMemoryScoreRepository implements ScoreRepository {
     return Array.from(this.scores.values());
   }
 
-  // Helper methods for testing
   clear(): void {
     this.scores.clear();
   }

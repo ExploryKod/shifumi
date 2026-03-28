@@ -40,10 +40,9 @@ export const GameBoard = () => {
   const isLoss = gameState.outcome === 'loss';
   const isDraw = gameState.outcome === 'draw';
 
-  // Show result screen after a game
   if (gameState.phase === 'finished' && gameState.playerPick && gameState.housePick) {
     return (
-      <div className="flex w-full flex-col items-center">
+      <div className="flex w-full flex-col items-center px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex w-full max-w-5xl flex-col items-center gap-16 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
           <PickPanel
             title="YOU PICKED"
@@ -76,7 +75,6 @@ export const GameBoard = () => {
     );
   }
 
-  // Show waiting state while computer picks
   if (gameState.phase === 'revealing' && gameState.playerPick) {
     return (
       <div className="flex w-full max-w-4xl flex-col items-center gap-14 md:grid md:grid-cols-2 md:gap-16">

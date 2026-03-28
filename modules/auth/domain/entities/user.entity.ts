@@ -23,7 +23,6 @@ export class Email {
   }
 
   isValid(): boolean {
-    // Lightweight validation for now; we'll tighten rules later if needed.
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
   }
 }
@@ -70,7 +69,7 @@ export class UserAlreadyActiveError extends Error {
 }
 
 export type CreateUserProps = {
-  // Optional for now so the use case can stay simple; we generate an id if missing.
+  /** Omitted ids are generated in `User.create`. */
   id?: UserId;
   email: Email;
   password: PasswordHash;
@@ -84,7 +83,6 @@ export class User {
       public readonly email: Email,
       public readonly profile: UserProfile,
       private status: UserStatus,
-      // Stored as a hash only; hashing strategy lives behind `PasswordHasher`.
       private readonly password: PasswordHash
     ) {}
   
@@ -94,7 +92,6 @@ export class User {
         UserId.create(
           `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`
         );
-      // Validate invariants
       if (!props.email.isValid()) {
         throw new InvalidEmailError(props.email.value);
       }
@@ -114,7 +111,6 @@ export class User {
       this.status = UserStatus.active();
     }
 
-    // Domain behavior: verification delegates strategy to the injected hasher.
     async verifyPassword(
       plainPassword: string,
       passwordHasher: PasswordHasher
@@ -122,7 +118,6 @@ export class User {
       return passwordHasher.compare(plainPassword, this.password);
     }
 
-    // Used by persistence/adapters to store the hash (hashing strategy stays outside).
     getPasswordHash(): PasswordHash {
       return this.password;
     }
@@ -130,8 +125,7 @@ export class User {
     isActive(): boolean {
       return this.status.isActive();
     }
-  
-    // Domain rule: business logic method
+
     canAccessFeature(feature: Feature): boolean {
       return this.profile.tier.includes(feature) && this.status.isActive();
     }

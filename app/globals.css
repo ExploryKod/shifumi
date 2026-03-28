@@ -1,17 +1,16 @@
 @import "tailwindcss";
 
-/* Fonts loaded via next/font in layout.tsx */
+/* -----------------------------------------------------------------------------
+   Design tokens
+   ----------------------------------------------------------------------------- */
 
 :root {
-  /* Layout (design sizes; test 320px to large screens for WCAG) */
   --width-mobile: 375px;
   --width-desktop: 1366px;
   --header-height: 0px;
   --footer-height: 0px;
   --banner-height: 200px;
 
-  /* Colors from Rock Paper Scissors style guide */
-  /* Primary Colors */
   --gold-500: hsl(39, 89%, 49%);
   --gold-600: hsl(28, 76%, 44%);
   --blue-500: hsl(230, 89%, 62%);
@@ -23,102 +22,92 @@
   --light-blue-400: hsl(189, 59%, 53%);
   --light-blue-500: hsl(194, 58%, 42%);
 
-  /* Neutral Colors */
   --navy-900: hsl(229, 25%, 31%);
   --blue-700-text: hsl(229, 64%, 46%);
   --gray-600: hsl(246, 11%, 37%);
 
-  /* Background */
   --bg-gradient-start: hsl(214, 47%, 23%);
   --bg-gradient-end: hsl(237, 48%, 15%);
   --background: radial-gradient(circle at top, var(--bg-gradient-start), var(--bg-gradient-end));
 
-  /* Typography – Barlow Semi Condensed from style guide */
   --font-barlow: var(--font-barlow), "Barlow Semi Condensed", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Convenience aliases for app usage */
   --font-heading: var(--font-barlow);
   --font-body: var(--font-barlow);
-  --font-size-body: 1.125rem; /* 18px text input size */
+  --font-size-body: 1.125rem;
 
-  /* Typography Hierarchy */
-  --heading-1: 3rem; /* 48px - Main game title */
-  --heading-2: 2.5rem; /* 40px - Score display */
-  --heading-3: 2rem; /* 32px - Section headers */
-  --heading-4: 1.5rem; /* 24px - Game choices */
-  --body-large: 1.25rem; /* 20px - Important text */
-  --body: 1rem; /* 16px - Regular text */
-  --body-small: 0.875rem; /* 14px - Secondary text */
+  --heading-1: 3rem;
+  --heading-2: 2.5rem;
+  --heading-3: 2rem;
+  --heading-4: 1.5rem;
+  --body-large: 1.25rem;
+  --body: 1rem;
+  --body-small: 0.875rem;
 }
 
 @theme inline {
-/* Font families → font-heading, font-body */
---font-heading: var(--font-heading);
---font-body: var(--font-body);
---text-heading-1: var(--heading-1);
---text-heading-2: var(--heading-2);
---text-heading-3: var(--heading-3);
---text-heading-4: var(--heading-4);
---text-body-large: var(--body-large);
---text-body: var(--body);
---text-body-small: var(--body-small);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --text-heading-1: var(--heading-1);
+  --text-heading-2: var(--heading-2);
+  --text-heading-3: var(--heading-3);
+  --text-heading-4: var(--heading-4);
+  --text-body-large: var(--body-large);
+  --text-body: var(--body);
+  --text-body-small: var(--body-small);
 
-/* Game Colors */
---color-gold-500: var(--gold-500);
---color-gold-600: var(--gold-600);
---color-blue-500: var(--blue-500);
---color-blue-700: var(--blue-700);
---color-red-600: var(--red-600);
---color-red-800: var(--red-800);
---color-purple-600: var(--purple-600);
---color-purple-700: var(--purple-700);
---color-light-blue-400: var(--light-blue-400);
---color-light-blue-500: var(--light-blue-500);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-blue-500: var(--blue-500);
+  --color-blue-700: var(--blue-700);
+  --color-red-600: var(--red-600);
+  --color-red-800: var(--red-800);
+  --color-purple-600: var(--purple-600);
+  --color-purple-700: var(--purple-700);
+  --color-light-blue-400: var(--light-blue-400);
+  --color-light-blue-500: var(--light-blue-500);
 
-/* Neutral Colors → Tailwind: text-navy-900, text-blue-700 (same HSL as score label in style guide), text-gray-600 */
---color-navy-900: var(--navy-900);
---color-blue-700-text: var(--blue-700-text);
---color-gray-600: var(--gray-600);
+  --color-navy-900: var(--navy-900);
+  --color-blue-700-text: var(--blue-700-text);
+  --color-gray-600: var(--gray-600);
 
-/* Layout */
---header-height: var(--header-height);
+  --header-height: var(--header-height);
 }
-
-/* Dark theme: reserved for later – no styling applied yet */
 
 /* -----------------------------------------------------------------------------
    Base & layout
    ----------------------------------------------------------------------------- */
 
-/* Apply the game background */
 body {
   background: var(--background);
   min-height: 100vh;
-  color: white; /* Ensure text is visible on dark gradient */
+  color: white;
 }
 
-/* Header height – use var(--header-height) for layout/positioning */
 .header-height {
   min-height: var(--header-height);
-}  
-
-/* Footer block – dark cyan background, white text */
-.footer-block {
-  @apply bg-cyan-300 text-white pt-0 pb-10;
 }
 
-.section-container, .header-container, .footer-container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4;
+.footer-block {
+  @apply bg-cyan-300 text-white mt-5 pt-0 pb-10;
+}
+
+.section-container,
+.header-container,
+.footer-container {
+  @apply max-w-3xl mt-5 mx-5;
 }
 
 .section-container-fluid {
   @apply w-full mx-auto;
 }
 
-/* Typography */
+/* -----------------------------------------------------------------------------
+   Typography
+   ----------------------------------------------------------------------------- */
 
 .main-title {
   @apply text-heading-1 font-bold font-heading;
@@ -129,15 +118,13 @@ body {
 }
 
 /* -----------------------------------------------------------------------------
-   Components – consistent patterns (use these classes in the app)
+   Components
    ----------------------------------------------------------------------------- */
 
-/* Common styles for all buttons */
 .btn-common-styles {
   @apply text-base font-bold font-body transition-all duration-300 motion-reduce:duration-0 ease-in-out;
 }
 
-/* Primary CTA – pink background, white text, rounded */
 .btn-primary {
   @apply rounded-full shadow-md cursor-pointer;
   @apply px-15 py-4 bg-pink-500 text-white opacity-100;
@@ -149,7 +136,6 @@ body {
   @apply ring-2 ring-offset-2 ring-pink-500 outline-none;
 }
 
-/* Secondary CTA – white bg, no colored border, dark text */
 .btn-secondary {
   @apply bg-white border border-transparent rounded-full shadow-sm cursor-pointer;
   @apply px-15 py-3 text-black;
@@ -161,13 +147,11 @@ body {
   @apply ring-2 ring-offset-2 ring-blue-500 outline-none;
 }
 
-/* Background pattern – plain CSS so background-size: cover is not overridden by Tailwind shorthand */
 .bg-pattern {
   background-image: url(/patterns/pattern-bg-mobile.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
 }
 @media (min-width: 640px) {
   .bg-pattern {
@@ -176,7 +160,6 @@ body {
   }
 }
 
-/* Infos Card – vertical separator on the right, 80% height (omit on last card via last:after:hidden) */
 .infos-card-sep {
   @apply relative;
 }
@@ -189,25 +172,26 @@ body {
     top: 10%;
     bottom: 10%;
     width: 1px;
-    background-color: hsl(0, 0%, 58%); /* --gray-400 from design system */
+    background-color: hsl(0, 0%, 58%);
   }
 }
 
-/** Image Container */
+/* -----------------------------------------------------------------------------
+   Images
+   ----------------------------------------------------------------------------- */
 
 .image-contain img {
-  object-fit: contain;   
+  object-fit: contain;
   aspect-ratio: 1;
 }
 
 .image-container.image-cover img {
-  object-fit: cover;   
+  object-fit: cover;
   aspect-ratio: 1;
 }
-
 
 .image-container.image-fill img {
-  object-fit: fill;   
+  object-fit: fill;
   aspect-ratio: 1;
 }
-
+ 
